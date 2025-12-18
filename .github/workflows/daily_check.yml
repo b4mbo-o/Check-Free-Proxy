@@ -1,0 +1,37 @@
+name: Daily Proxy Check
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 毎日 UTC 0:00 (日本時間 9:00) に実行
+  workflow_dispatch:      # 手動実行ボタンも有効にする
+
+permissions:
+  contents: write         # リポジトリへの書き込み権限を与える
+
+jobs:
+  check-proxies:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Pythonのセットアップ
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: 依存ライブラリのインストール
+        run: pip install requests
+
+      - name: プロキシチェック実行
+        run: python main.py
+
+      - name: 結果をコミット＆プッシュ
+        run: |
+          git config --global user.name "ProxyBot"
+          git config --global user.email "bot@example.com"
+          git add alive.txt list_cache.txt
+          # 変更がない場合はエラーにならないようにする
+          git commit -m "Update proxy list [skip ci]" || exit 0
+          git push
