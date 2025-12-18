@@ -2,8 +2,7 @@ name: Daily Proxy Check
 
 on:
   schedule:
-    # JST 4:00 は UTC 19:00 です
-    - cron: '0 19 * * *'
+    - cron: '0 19 * * *'  # JST 4:00 (UTC 19:00)
   workflow_dispatch:
 
 permissions:
@@ -32,6 +31,10 @@ jobs:
         run: |
           git config --global user.name "ProxyBot"
           git config --global user.email "bot@example.com"
-          git add alive.txt list_cache.txt
-          git commit -m "Update proxy list [skip ci]" || exit 0
+          
+          # 分割されたファイルすべてをaddします (alive.txtは廃止)
+          git add alive_http.txt alive_socks4.txt alive_socks5.txt list_cache.txt
+          
+          # 変更がない場合のエラー回避
+          git commit -m "Update proxy lists [skip ci]" || exit 0
           git push
