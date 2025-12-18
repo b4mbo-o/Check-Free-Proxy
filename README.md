@@ -1,6 +1,6 @@
 # 🚀 Auto Proxy Checker & List
 
-[![Daily Proxy Check](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME/actions/workflows/daily_check.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME/actions/workflows/daily_check.yml)
+[![Daily Proxy Check](https://github.com/b4mbo-o/Check-Free-Proxy/actions/workflows/daily_check.yml/badge.svg)](https://github.com/b4mbo-o/Check-Free-Proxy/actions/workflows/daily_check.yml)
 
 GitHub Actionsを利用して、毎日自動で**有効かつ無料のプロキシ**を収集・検証し、リストを更新するリポジトリです。
 [TheSpeedX/PROXY-List](https://github.com/TheSpeedX/PROXY-List) の膨大なリストから、実際に接続可能でIP漏洩のないものだけを厳選しています。
@@ -42,8 +42,8 @@ Rawリンクをクリックして、ツールやスクリプトで直接利用�
 
 ```bash
 # Clone this repository
-git clone [https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git)
-cd YOUR_REPO_NAME
+git clone [https://github.com/b4mbo-o/Check-Free-Proxy.git](https://github.com/b4mbo-o/Check-Free-Proxy.git)
+cd Check-Free-Proxy
 
 # Install dependencies
 pip install "requests[socks]"
