@@ -2,7 +2,7 @@ name: Daily Proxy Check
 
 on:
   schedule:
-    - cron: '0 19 * * *'  # JST 4:00 (UTC 19:00)
+    - cron: '0 19 * * *'  # JST 4:00（UTC 19:00）
   workflow_dispatch:
 
 permissions:
@@ -10,31 +10,35 @@ permissions:
 
 jobs:
   check-proxies:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: リポジトリをチェックアウト
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Pythonのセットアップ
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v7
         with:
-          python-version: '3.9'
+          python-version: '3.12'
 
       - name: 依存ライブラリのインストール
-        run: pip install "requests[socks]"
+        run: python -m pip install "requests[socks]"
 
       - name: プロキシチェック実行
         run: python main.py
 
       - name: 結果をコミット＆プッシュ
         run: |
-          git config --global user.name "ProxyBot"
-          git config --global user.email "bot@example.com"
-          
-          # 分割されたファイルすべてをaddします (alive.txtは廃止)
+          git config user.name "ProxyBot"
+          git config user.email "bot@example.com"
+
           git add alive_http.txt alive_socks4.txt alive_socks5.txt list_cache.txt
-          
-          # 変更がない場合のエラー回避
-          git commit -m "Update proxy lists [skip ci]" || exit 0
+
+          # 変更がなければ正常終了
+          if git diff --cached --quiet; then
+            echo "変更はありません"
+            exit 0
+          fi
+
+          git commit -m "Update proxy lists [skip ci]"
           git push
